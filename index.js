@@ -3,13 +3,21 @@ alumnos = [];
 cursos = ["JavaScript", "Desarrollo web", "Python", "Java"];
 
 function altaAlumno() {
-    const nombre = prompt("Ingrese el nombre del alumno:");
-    const apellido = prompt("Ingrese el apellido del alumno:");
-    let curso = prompt(`Seleccione el curso al que se inscribe:\n ${cursos.map((curso, index) => `${index + 1}. ${curso}`).join("\n")}`);
-    curso = cursos[parseInt(curso) - 1];
-    alumnos.push({ nombre, apellido, curso });
-    alert(`Alumno ${nombre} ${apellido} inscrito en el curso ${curso}.`);
-    menuPrincipal()
+  const nombre = prompt("Ingrese el nombre del alumno:");
+  const apellido = prompt("Ingrese el apellido del alumno:");
+
+  let listaCursos = '';
+  for (let i = 0; i < cursos.length; i++) {
+    listaCursos += `${i + 1}. ${cursos[i]}\n`;
+  }
+
+  let cursoSeleccionado = prompt(`Seleccione el curso al que se inscribe:\n ${listaCursos}`);
+  cursoSeleccionado = cursos[parseInt(cursoSeleccionado) - 1];
+
+  alumnos.push({ nombre, apellido, curso: cursoSeleccionado });
+  alert(`Alumno ${nombre} ${apellido} inscripto en el curso ${cursoSeleccionado}.`);
+
+  menuPrincipal();
 }
 
 function altaCurso() {
@@ -23,7 +31,10 @@ function listadoAlumnos() {
     if (alumnos.length === 0) {
         alert("No hay alumnos inscriptos.");
     } else {
-        const lista = alumnos.map((alumno, index) => `${index + 1}. ${alumno.nombre} ${alumno.apellido} - Curso: ${alumno.curso}`).join("\n");
+        let lista = '';
+        for (let i = 0; i < alumnos.length; i++) {
+            lista += `${i + 1}. ${alumnos[i].nombre} ${alumnos[i].apellido} - Curso: ${alumnos[i].curso}\n`;
+        }
         alert(lista);
     }
     menuPrincipal();
@@ -33,7 +44,10 @@ function listadoCursos() {
     if (cursos.length === 0) {
         alert("No hay cursos disponibles.");
     } else {
-        const lista = cursos.map((curso, index) => `${index + 1}. ${curso}`).join("\n");
+        let lista = '';
+        for (let i = 0; i < cursos.length; i++) {
+            lista += `${i + 1}. ${cursos[i]}\n`;
+        }
         alert(`Cursos disponibles:\n\n ${lista}`);
     }
     menuPrincipal();
@@ -46,8 +60,8 @@ function menuPrincipal() {
     Selecciona una opción:
 
     1. Alta de alumno
-    2. Alta nuevo curso
-    3. Listado de alumnos
+    2. Listado de alumnos
+    3. Alta nuevo curso
     4. Listado de cursos
     5. Salir
     `);
@@ -56,16 +70,16 @@ function menuPrincipal() {
             altaAlumno();
             break;
         case "2":
-            altaCurso();
+            listadoAlumnos();
             break;
         case "3":
-            listadoAlumnos()
+            altaCurso();
             break;
         case "4":
             listadoCursos();
             break;
         case "5":
-            alert("Saliendo del sistema.");
+            alert("Saliendo del sistema...");
             break;
         default:
             alert("Opción no válida.");
